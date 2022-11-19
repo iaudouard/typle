@@ -12,7 +12,7 @@ const Home: NextPage = () => {
 
   if (!orderedTests.data) {
     return (
-      <main className="flex h-screen items-center justify-center bg-red-500">
+      <main className="flex h-screen items-center justify-center bg-black">
         <h1 className=" text-2xl font-semibold text-white">Loading...</h1>
       </main>
     );
@@ -28,7 +28,7 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-red-500">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-black">
         <h1 className="absolute top-4 text-4xl font-bold text-white">typle.</h1>
         <Test testString={orderedTests.data.tests[0]?.test} />
       </main>
