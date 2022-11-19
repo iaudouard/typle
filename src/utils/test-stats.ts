@@ -5,7 +5,7 @@ function calculateNumberOfCorrectWordChars(
   let numberOfCorrectChars = 0;
   const userInputWords = testUserInput.split(" ");
   const testWords = test.split(" ");
-  for (let word in userInputWords) {
+  for (const word in userInputWords) {
     //only add correct chars if whole word is correct
     if (userInputWords[word] === testWords[word]) {
       numberOfCorrectChars += userInputWords[word]!.length;
