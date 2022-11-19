@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../server/db/client";
 import path from "path";
 import { promises as fs } from "fs";
-import { createTest } from "../../server/test-utils/createTest";
+import { createTest } from "../../server/test-utils/create-test";
 
 export default async function cron(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
@@ -22,7 +22,7 @@ export default async function cron(req: NextApiRequest, res: NextApiResponse) {
 
         const newTest = createTest(words);
 
-        const pushTest = await prisma.test.create({
+        await prisma.test.create({
           data: {
             test: newTest,
           },
