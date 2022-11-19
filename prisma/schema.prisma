@@ -13,10 +13,18 @@ datasource db {
   // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url      = env("DATABASE_URL")
 }
+
 model Test {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  test String
+  test      String
+}
+
+model TestResult {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  wpm String
 }
 
 // Necessary for Next auth
@@ -26,12 +34,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?  // @db.Text
-  access_token      String?  // @db.Text
+  refresh_token     String? // @db.Text
+  access_token      String? // @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?  // @db.Text
+  id_token          String? // @db.Text
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 

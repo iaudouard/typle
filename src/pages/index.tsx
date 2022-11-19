@@ -8,6 +8,7 @@ import { Test } from "../components/Test";
 
 const Home: NextPage = () => {
   const orderedTests = trpc.test.get.useQuery();
+  // const commonWords = trpc.test.create.useQuery();
 
   if (!orderedTests.data) {
     return (
