@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 type Props = {
-  testString?: string;
+  testString?: string | null;
 };
 
 export const Test = (props: Props) => {
@@ -45,7 +45,7 @@ export const Test = (props: Props) => {
         spellCheck={false}
         autoCapitalize="none"
         autoComplete="none"
-        className="absolute opacity-0"
+        className="absolute border-none bg-transparent opacity-0 outline-none"
         onChange={(e) => handleTestInputChange(e)}
         onBlur={() => setIsInputFocused(false)}
         onFocus={() => setIsInputFocused(true)}

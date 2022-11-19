@@ -19,7 +19,7 @@ datasource db {
 model Test {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  test      String
+  test      String?  @db.Text
 }
 
 model TestResult {

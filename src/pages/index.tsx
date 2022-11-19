@@ -1,22 +1,30 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-// import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 // import { signIn, signOut, useSession } from "next-auth/react";
 
 import { trpc } from "../utils/trpc";
 import { Test } from "../components/Test";
 
-const Home: NextPage = () => {
-  const orderedTests = trpc.test.get.useQuery();
-  // const commonWords = trpc.test.create.useQuery();
+import autoAnimate from "@formkit/auto-animate";
 
-  if (!orderedTests.data) {
-    return (
-      <main className="flex h-screen items-center justify-center bg-black">
-        <h1 className=" text-2xl font-semibold text-white">Loading...</h1>
-      </main>
-    );
-  }
+const Home: NextPage = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const orderedTests = trpc.test.get.useQuery();
+
+  const parent = useRef(null);
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current);
+  }, [parent]);
+
+  useEffect(() => {
+    if (orderedTests.data) {
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+    }
+  }, [orderedTests]);
 
   return (
     <>
@@ -29,8 +37,21 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-black">
-        <h1 className="absolute top-4 text-4xl font-bold text-white">typle.</h1>
-        <Test testString={orderedTests.data.tests[0]?.test} />
+        <section
+          ref={parent}
+          className="flex flex-grow items-center justify-center"
+        >
+          {isLoading ? (
+            <h1 className=" text-2xl font-semibold text-white">Loading...</h1>
+          ) : (
+            <>
+              <h1 className="absolute top-4 text-4xl font-bold text-white">
+                typle.
+              </h1>
+              <Test testString={orderedTests.data!.tests[0]?.test} />{" "}
+            </>
+          )}
+        </section>
       </main>
     </>
   );
