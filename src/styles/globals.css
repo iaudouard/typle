@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .char-correct {
+    color: white;
+  }
+
+  .char-incorrect {
+    color: red;
+  }
+
+  .char-inactive {
+    color: gray;
+  }
+}
