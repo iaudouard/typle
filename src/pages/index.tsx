@@ -46,7 +46,7 @@ const Home: NextPage = () => {
             <h1 className=" text-3xl font-semibold text-white">Loading...</h1>
           ) : (
             <>
-              <Test test={orderedTests.data!.tests[0]?.test!} />
+              <Test test={orderedTests.data!.tests[0]!.test!} />
             </>
           )}
         </section>
