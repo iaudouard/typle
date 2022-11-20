@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 // import { signIn, signOut, useSession } from "next-auth/react";
 
 import { trpc } from "../utils/trpc";
-import { Test } from "../components/Test";
+import { Test } from "../components/test/Test";
 
 import autoAnimate from "@formkit/auto-animate";
 
@@ -37,18 +37,16 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-black">
+        <h1 className="absolute top-4 text-4xl font-bold text-white">typle.</h1>
         <section
           ref={parent}
           className="flex flex-grow items-center justify-center"
         >
           {isLoading ? (
-            <h1 className=" text-2xl font-semibold text-white">Loading...</h1>
+            <h1 className=" text-3xl font-semibold text-white">Loading...</h1>
           ) : (
             <>
-              <h1 className="absolute top-4 text-4xl font-bold text-white">
-                typle.
-              </h1>
-              <Test testString={orderedTests.data!.tests[0]?.test} />{" "}
+              <Test test={orderedTests.data!.tests[0]?.test!} />
             </>
           )}
         </section>

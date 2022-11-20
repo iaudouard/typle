@@ -18,15 +18,15 @@ function calculateNumberOfCorrectWordChars(
   return numberOfCorrectChars;
 }
 
-export function getWpm(
-  startTime: number,
-  endTime: number,
+export function calculateWpm(
+  testDuration: number,
   testUserInput: string,
   test: string
 ) {
-  const time = startTime - endTime;
   const wpm =
-    calculateNumberOfCorrectWordChars(testUserInput, test) / 5 / (time / 60000);
+    calculateNumberOfCorrectWordChars(testUserInput, test) /
+    5 /
+    (testDuration / 60);
 
   return wpm;
 }

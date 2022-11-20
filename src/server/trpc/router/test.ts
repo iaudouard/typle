@@ -10,6 +10,9 @@ export const testRouter = router({
         orderBy: {
           createdAt: "desc",
         },
+        where: {
+          NOT: [{ test: "null" }],
+        },
       })
       .catch((err) => {
         throw err;
