@@ -17,16 +17,18 @@ datasource db {
 }
 
 model Test {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  test      String   @db.Text
+  id          String       @id @default(cuid())
+  createdAt   DateTime     @default(now())
+  test        String       @db.Text
+  testResults TestResult[]
 }
 
 model TestResult {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-
-  wpm String
+  testId    String
+  test      Test     @relation(fields: [testId], references: [id])
+  wpm       String
 }
 
 // Necessary for Next auth

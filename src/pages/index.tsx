@@ -9,20 +9,17 @@ import { trpc } from "../utils/trpc";
 import { Test } from "../components/test/Test";
 import { transition, variants } from "../constants/animation-values";
 import { getLS } from "../utils/local-storage";
+import { useContext } from "react";
+import { TestContext } from "../context/TestContext";
 
 const Home: NextPage = () => {
-  const orderedTests = trpc.test.get.useQuery();
   const [isTestShown, setIsTestShown] = useState<boolean>(true);
-  useEffect(() => {
-    if (orderedTests.data?.tests[0]?.id) {
-      const pastTests = getLS(orderedTests.data?.tests[0]?.id);
-      if (pastTests) {
-        if (JSON.parse(pastTests).length >= 6) {
-          setIsTestShown(false);
-        }
-      }
-    }
-  }, [orderedTests]);
+
+  const test = useContext(TestContext);
+
+  const updateTestShown = (arg: boolean) => {
+    setIsTestShown(arg);
+  };
 
   return (
     <>
@@ -37,38 +34,22 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-center bg-black">
         <h1 className="absolute top-4 text-4xl font-bold text-white">typle.</h1>
         <section className="flex flex-grow items-center justify-center">
-          {!orderedTests.data ? (
-            <motion.h1
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              transition={transition}
-              variants={variants}
-              className=" text-3xl font-semibold text-white"
-            >
-              Loading...
-            </motion.h1>
-          ) : (
-            <>
-              {isTestShown ? (
-                <Test
-                  test={orderedTests.data.tests[0]!.test}
-                  testId={orderedTests.data.tests[0]!.id}
-                />
-              ) : (
-                <motion.h1
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  transition={transition}
-                  variants={variants}
-                  className=" text-3xl font-semibold text-white"
-                >
-                  No Mo
-                </motion.h1>
-              )}
-            </>
-          )}
+          <>
+            {isTestShown ? (
+              <Test updateTestShown={updateTestShown} />
+            ) : (
+              <motion.h1
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                transition={transition}
+                variants={variants}
+                className=" text-3xl font-semibold text-white"
+              >
+                No Mo
+              </motion.h1>
+            )}
+          </>
         </section>
       </main>
     </>
