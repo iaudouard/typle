@@ -11,11 +11,7 @@ type Props = {
 export const Timer = (props: Props) => {
   const expiryTimestamp = props.expiryTimestamp;
 
-  const {
-    seconds,
-
-    start,
-  } = useTimer({
+  const { seconds, start } = useTimer({
     expiryTimestamp,
     onExpire: () => props.onExpire(),
     autoStart: false,

@@ -1,10 +1,18 @@
 import { useEffect, useRef, useState } from "react";
+import { Button } from "../Button";
 import { Result } from "./Result";
 import { Text } from "./Text";
 import { Timer } from "./Timer";
 
+import { FaRedo } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { transition, variants } from "../../constants/animation-values";
+import { storeTestLocally } from "../../utils/store-test";
+import { calculateWpm } from "../../utils/test-stats";
+
 type Props = {
   test: string;
+  testId: string;
 };
 
 export const Test = (props: Props) => {
@@ -15,6 +23,8 @@ export const Test = (props: Props) => {
 
   const [isInputFocused, setIsInputFocused] = useState<boolean>(true);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const [wpm, setWpm] = useState<number>();
 
   useEffect(() => {
     isInputFocused ? inputRef.current?.focus() : inputRef.current?.blur();
@@ -30,15 +40,60 @@ export const Test = (props: Props) => {
   time.setSeconds(time.getSeconds() + 15); // 15 seconds timer
 
   const onTimerExpire = () => {
+    const tempWpm = calculateWpm(15, userInput, props.test);
+    setWpm(tempWpm);
     setHasCompletedTest(true);
+    storeTestLocally(props.testId, tempWpm);
   };
 
+  const resetTest = () => {
+    setHasStartedTest(false);
+    setHasCompletedTest(false);
+    setUserInput("");
+  };
+
+  const handleTab = (ev: KeyboardEvent) => {
+    if (hasCompletedTest && ev.key === "Tab") {
+      ev.preventDefault();
+      resetTest();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleTab);
+
+    return () => {
+      window.removeEventListener("keydown", handleTab);
+    };
+  }, [hasCompletedTest]);
+
+  if (hasCompletedTest) {
+    return (
+      <motion.div
+        variants={variants}
+        initial="hidden"
+        whileInView="visible"
+        exit="exit"
+        transition={transition}
+        className="flex items-center gap-4"
+      >
+        <Result wpm={wpm!} />
+        <Button onClick={resetTest} children={<FaRedo />} tabIndex={0} />
+      </motion.div>
+    );
+  }
+
   return (
-    <>
-      {hasCompletedTest ? (
-        <Result test={props.test} userInput={userInput} />
-      ) : (
-        <div className="flex max-w-2/3 flex-col items-center">
+    <AnimatePresence>
+      {!hasCompletedTest && (
+        <motion.div
+          variants={variants}
+          initial="hidden"
+          whileInView="visible"
+          exit="exit"
+          transition={transition}
+          className="flex max-w-2/3 flex-col items-center"
+        >
           <Timer
             expiryTimestamp={time}
             durationInSeconds={15}
@@ -56,6 +111,7 @@ export const Test = (props: Props) => {
           </div>
 
           <input
+            autoFocus
             ref={inputRef}
             spellCheck={false}
             autoCapitalize="none"
@@ -66,8 +122,8 @@ export const Test = (props: Props) => {
             onFocus={() => setIsInputFocused(true)}
             onPaste={(e) => e.preventDefault()}
           />
-        </div>
+        </motion.div>
       )}
-    </>
+    </AnimatePresence>
   );
 };

@@ -11,7 +11,16 @@
     color: red;
   }
 
+  .word-incorrect {
+    border-bottom: solid 2px red;
+    transition: all 0.1s;
+  }
+
   .char-inactive {
     color: gray;
+  }
+
+  .btn-bg:hover {
+    background-color: rgba(125, 125, 125, 0.35);
   }
 }
