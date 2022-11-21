@@ -13,12 +13,14 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <SessionProvider session={session}>
-      <TestContextProvider>
-        <Component {...pageProps} />
-        <Analytics />
-      </TestContextProvider>
-    </SessionProvider>
+    <>
+      <SessionProvider session={session}>
+        <TestContextProvider>
+          <Component {...pageProps} />
+        </TestContextProvider>
+      </SessionProvider>
+      <Analytics />
+    </>
   );
 };
 
