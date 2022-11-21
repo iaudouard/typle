@@ -78,7 +78,9 @@ export const Test = (props: Props) => {
         className="flex items-center gap-4"
       >
         <Result wpm={wpm!} />
-        <Button onClick={resetTest} children={<FaRedo />} tabIndex={0} />
+        <Button onClick={resetTest} tabIndex={0}>
+          <FaRedo />
+        </Button>
       </motion.div>
     );
   }

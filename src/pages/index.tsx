@@ -1,9 +1,9 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 // import { signIn, signOut, useSession } from "next-auth/react";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 import { trpc } from "../utils/trpc";
 import { Test } from "../components/test/Test";

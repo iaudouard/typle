@@ -54,16 +54,7 @@ const Word = (props: WordProps) => {
   }, [props.userInput]);
 
   return (
-    <span
-      className={
-        typeof userInputWordList[props.index] !== undefined &&
-        props.currWordIndex > props.index
-          ? userInputWordList[props.index]!.length < props.testWord.length
-            ? "word-incorrect"
-            : ""
-          : ""
-      }
-    >
+    <span className={`${isUnderline && "word-incorrect"}`}>
       {props.testWord.split("").map((char, j) => {
         return (
           <Char
