@@ -28,6 +28,7 @@ model TestResult {
   createdAt DateTime @default(now())
   testId    String
   test      Test     @relation(fields: [testId], references: [id])
+  username  String   @default("Guest User")
   wpm       String
 }
 
@@ -60,6 +61,7 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
+  username      String    @unique
   name          String?
   email         String?   @unique
   emailVerified DateTime?

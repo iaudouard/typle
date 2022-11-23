@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../Button";
-import { Result } from "./Result";
+import { Result } from "./Wpm";
 import { Text } from "./Text";
 import { Timer } from "./Timer";
 
