@@ -1,21 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../Button";
-import { Result } from "./Result";
+import { Result } from "./Wpm";
 import { Text } from "./Text";
 import { Timer } from "./Timer";
 
 import { FaRedo } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { transition, variants } from "../../constants/animation-values";
-import { storeTestLocally } from "../../utils/store-test";
+import { storeTestLocally } from "../../utils/local-storage-test";
 import { calculateWpm } from "../../utils/test-stats";
+import { getLS } from "../../utils/local-storage";
+import { useContext } from "react";
+import { TestContext } from "../../context/TestContext";
 
 type Props = {
-  test: string;
-  testId: string;
+  updateTestShown: (arg: boolean) => void;
 };
 
 export const Test = (props: Props) => {
+  const test = useContext(TestContext);
   const [userInput, setUserInput] = useState<string>("");
 
   const [hasStartedTest, setHasStartedTest] = useState<boolean>(false);
@@ -30,6 +33,13 @@ export const Test = (props: Props) => {
     isInputFocused ? inputRef.current?.focus() : inputRef.current?.blur();
   }, [isInputFocused]);
 
+  useEffect(() => {
+    const pastResults = getLS(test.id);
+    if (!hasCompletedTest && pastResults) {
+      if (JSON.parse(pastResults).length >= 6) props.updateTestShown(false);
+    }
+  }, [hasCompletedTest]);
+
   const handleTestInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!hasStartedTest) setHasStartedTest(true);
     setUserInput(e.target.value);
@@ -40,10 +50,10 @@ export const Test = (props: Props) => {
   time.setSeconds(time.getSeconds() + 15); // 15 seconds timer
 
   const onTimerExpire = () => {
-    const tempWpm = calculateWpm(15, userInput, props.test);
+    const tempWpm = calculateWpm(15, userInput, test.test);
     setWpm(tempWpm);
     setHasCompletedTest(true);
-    storeTestLocally(props.testId, tempWpm);
+    storeTestLocally(test.id, tempWpm);
   };
 
   const resetTest = () => {
@@ -109,7 +119,7 @@ export const Test = (props: Props) => {
               !isInputFocused && "blur-sm"
             }`}
           >
-            <Text userInput={userInput} testString={props.test} />
+            <Text userInput={userInput} testString={test.test} />
           </div>
 
           <input

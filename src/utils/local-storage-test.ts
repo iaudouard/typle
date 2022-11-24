@@ -9,3 +9,11 @@ export function storeTestLocally(testId: string, wpm: number) {
     setLS(testId, [wpm]);
   }
 }
+
+export function fetchTestResultsLocally(testId: string) {
+  if (getLS(testId)) {
+    return JSON.parse(getLS(testId)!);
+  }
+
+  return undefined;
+}

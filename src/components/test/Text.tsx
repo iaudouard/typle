@@ -40,21 +40,17 @@ type WordProps = {
 const Word = (props: WordProps) => {
   const userInputWordList = props.userInput.split(" ");
 
-  const [isUnderline, setIsUnderline] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (
-      typeof userInputWordList[props.index] !== undefined &&
-      props.currWordIndex > props.index
-    ) {
-      if (userInputWordList[props.index]!.length < props.testWord.length) {
-        setIsUnderline(true);
-      }
-    }
-  }, [props.userInput]);
-
   return (
-    <span className={`${isUnderline && "word-incorrect"}`}>
+    <span
+      className={
+        typeof userInputWordList[props.index] !== undefined &&
+        props.currWordIndex > props.index
+          ? userInputWordList[props.index]!.length < props.testWord.length
+            ? "word-incorrect"
+            : ""
+          : ""
+      }
+    >
       {props.testWord.split("").map((char, j) => {
         return (
           <Char

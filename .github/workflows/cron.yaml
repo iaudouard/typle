@@ -1,7 +1,7 @@
 name: daily-test-update-cron
 on:
   schedule:
-    - cron: "0 1 * * *"
+    - cron: "* * * * *"
 jobs:
   cron:
     runs-on: ubuntu-latest
