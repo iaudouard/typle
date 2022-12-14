@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer components {
+  .page-container {
+    display: flex;
+    background-color: black;
+    min-height: 100vh;
+  }
   .word-incorrect {
     border-bottom: solid 2px red;
     transition: all 0.1s;
