@@ -7,17 +7,22 @@ type Props = {};
 export const Header = (props: Props) => {
   const router = useRouter();
 
-  const handleLeaderboardIconClick = () => {
-    router.push("/leaderboard");
+  const handleRouteChange = (route: string) => {
+    router.push(route);
   };
   return (
     <header className="absolute top-0 flex w-full justify-between p-8">
-      <h1 className="text-4xl font-bold text-white">typle.</h1>
+      <h1
+        className="cursor-pointer text-4xl font-bold text-white"
+        onClick={() => handleRouteChange("/")}
+      >
+        typle.
+      </h1>
       <MdLeaderboard
         color="white"
         size={24}
         className="cursor-pointer"
-        onClick={handleLeaderboardIconClick}
+        onClick={() => handleRouteChange("/leaderboard")}
       />
     </header>
   );
