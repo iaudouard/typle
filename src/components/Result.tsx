@@ -6,7 +6,8 @@ import { TestContext } from "../context/TestContext";
 // type Props = {};
 
 export const Result = () => {
-  const test = useContext(TestContext);
+  const { test } = useContext(TestContext);
+
   return (
     <motion.section
       initial="hidden"

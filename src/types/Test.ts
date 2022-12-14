@@ -1,5 +1,5 @@
 export type Test = {
   id: string;
-  test: string;
+  testBody: string;
   results: number[];
 };

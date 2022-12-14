@@ -1,21 +1,14 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 // import { signIn, signOut, useSession } from "next-auth/react";
 
-import { motion } from "framer-motion";
-
-import { trpc } from "../utils/trpc";
 import { Test } from "../components/test/Test";
-import { transition, variants } from "../constants/animation-values";
 import { Result } from "../components/Result";
+import { TestContext } from "../context/TestContext";
 
 const Home: NextPage = () => {
-  const [isTestShown, setIsTestShown] = useState<boolean>(true);
-
-  const updateTestShown = (arg: boolean) => {
-    setIsTestShown(arg);
-  };
+  const { test } = useContext(TestContext);
 
   return (
     <>
@@ -30,13 +23,7 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-center bg-black">
         <h1 className="absolute top-4 text-4xl font-bold text-white">typle.</h1>
         <section className="flex flex-grow items-center justify-center">
-          <>
-            {isTestShown ? (
-              <Test updateTestShown={updateTestShown} />
-            ) : (
-              <Result />
-            )}
-          </>
+          <>{test.results.length < 6 ? <Test /> : <Result />}</>
         </section>
       </main>
     </>

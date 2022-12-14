@@ -1,16 +1,32 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { Loading } from "../components/Loading";
 import type { Test } from "../types/Test";
-import { fetchTestResultsLocally } from "../utils/local-storage-test";
-import { trpc } from "../utils/trpc";
+import {
+  fetchTestResultsLocally,
+  storeTestResultsLocally,
+} from "../lib/local-storage";
+import { trpc } from "../lib/trpc";
 
-const defaultTestContext = {
-  id: "",
-  test: "",
-  results: [],
+type TestContextType = {
+  test: Test;
+  setTest: Dispatch<SetStateAction<Test>>;
 };
 
-export const TestContext = createContext<Test>(defaultTestContext);
+const defaultTest = { id: "", testBody: "", results: [] };
+
+const defaultTestContext = {
+  test: defaultTest,
+  setTest: () => null,
+};
+
+export const TestContext = createContext<TestContextType>(defaultTestContext);
 
 type Props = {
   children: React.ReactNode;
@@ -19,7 +35,7 @@ type Props = {
 const TestContextProvider = ({ children }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const [testContext, setTestContext] = useState<Test>(defaultTestContext);
+  const [test, setTest] = useState<Test>(defaultTest);
 
   const orderedTests = trpc.test.get.useQuery();
 
@@ -27,16 +43,26 @@ const TestContextProvider = ({ children }: Props) => {
     if (orderedTests.data) {
       const latestTest = orderedTests.data.tests[0]!;
       const localResults = fetchTestResultsLocally(latestTest.id);
-      setTestContext({
+      setTest({
         id: latestTest.id,
-        test: latestTest.test,
-        results: localResults,
+        testBody: latestTest.test,
+        //if results is undefined (test hasn't been taken yet) make results an empty array (avoid home page results length check error for undefined)
+        results: localResults ? localResults : [],
       });
       setIsLoading(false);
     }
   }, [orderedTests.data]);
+
+  useEffect(() => {
+    if (test.results.length > 0) {
+      storeTestResultsLocally(test);
+    }
+
+    // console.log("test result useeffect ran", test);
+  }, [test.results]);
+
   return (
-    <TestContext.Provider value={testContext!}>
+    <TestContext.Provider value={{ test, setTest }}>
       {isLoading ? <Loading /> : children}
     </TestContext.Provider>
   );

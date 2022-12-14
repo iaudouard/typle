@@ -7,57 +7,53 @@ import { Timer } from "./Timer";
 import { FaRedo } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { transition, variants } from "../../constants/animation-values";
-import { storeTestLocally } from "../../utils/local-storage-test";
-import { calculateWpm } from "../../utils/test-stats";
-import { getLS } from "../../utils/local-storage";
+import { calculateWpm } from "../../lib/test-stats";
 import { useContext } from "react";
 import { TestContext } from "../../context/TestContext";
+import { useTimerHook } from "../../hooks/useTimer";
 
-type Props = {
-  updateTestShown: (arg: boolean) => void;
-};
-
-export const Test = (props: Props) => {
-  const test = useContext(TestContext);
+export const Test = () => {
+  const { test, setTest } = useContext(TestContext);
   const [userInput, setUserInput] = useState<string>("");
 
-  const [hasStartedTest, setHasStartedTest] = useState<boolean>(false);
   const [hasCompletedTest, setHasCompletedTest] = useState<boolean>(false);
 
   const [isInputFocused, setIsInputFocused] = useState<boolean>(true);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [wpm, setWpm] = useState<number>();
+  const onTestComplete = (testTimerLength: number): void => {
+    const wpm = calculateWpm(testTimerLength, userInput, test.testBody);
+
+    const time = new Date();
+    time.setSeconds(time.getSeconds() + 15);
+    restart(time, false);
+
+    setHasCompletedTest(true);
+    setTest({ ...test, results: [...test.results, wpm] });
+  };
+
+  const { seconds, start, isRunning, restart } = useTimerHook({
+    durationInSeconds: 15,
+    onExpire: () => onTestComplete(15),
+  });
 
   useEffect(() => {
     isInputFocused ? inputRef.current?.focus() : inputRef.current?.blur();
   }, [isInputFocused]);
 
-  useEffect(() => {
-    const pastResults = getLS(test.id);
-    if (!hasCompletedTest && pastResults) {
-      if (JSON.parse(pastResults).length >= 6) props.updateTestShown(false);
-    }
-  }, [hasCompletedTest]);
-
   const handleTestInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!hasStartedTest) setHasStartedTest(true);
-    setUserInput(e.target.value);
-  };
+    if (!isRunning) {
+      start();
+    }
+    setUserInput(e.currentTarget.value);
 
-  //timer logic
-  const time = new Date();
-  time.setSeconds(time.getSeconds() + 15); // 15 seconds timer
-
-  const onTimerExpire = () => {
-    const tempWpm = calculateWpm(15, userInput, test.test);
-    setWpm(tempWpm);
-    setHasCompletedTest(true);
-    storeTestLocally(test.id, tempWpm);
+    //if user has perfectly completed test  end test
+    if (e.currentTarget.value === test.testBody) {
+      onTestComplete(15 - seconds);
+    }
   };
 
   const resetTest = () => {
-    setHasStartedTest(false);
     setHasCompletedTest(false);
     setUserInput("");
   };
@@ -87,7 +83,7 @@ export const Test = (props: Props) => {
         transition={transition}
         className="flex items-center gap-4"
       >
-        <Result wpm={wpm!} />
+        <Result />
         <Button onClick={resetTest} tabIndex={0}>
           <FaRedo />
         </Button>
@@ -97,45 +93,41 @@ export const Test = (props: Props) => {
 
   return (
     <AnimatePresence>
-      {!hasCompletedTest && (
-        <motion.div
-          variants={variants}
-          initial="hidden"
-          whileInView="visible"
-          exit="exit"
-          transition={transition}
-          className="flex max-w-2/3 flex-col items-center"
+      <motion.div
+        variants={variants}
+        initial="hidden"
+        whileInView="visible"
+        exit="exit"
+        transition={transition}
+        className="flex max-w-2/3 flex-col items-center"
+      >
+        <h3 className="self-start text-2xl font-semibold text-white">
+          {seconds}
+        </h3>
+
+        <div
+          onClick={() => setIsInputFocused(true)}
+          className={`z-50 w-full py-2 transition duration-300 ${
+            !isInputFocused && "blur-sm"
+          }`}
         >
-          <Timer
-            expiryTimestamp={time}
-            durationInSeconds={15}
-            onExpire={onTimerExpire}
-            isTimerStarted={hasStartedTest}
-          />
+          <Text userInput={userInput} testString={test.testBody} />
+        </div>
 
-          <div
-            onClick={() => setIsInputFocused(true)}
-            className={`z-50 w-full p-2 transition duration-300 ${
-              !isInputFocused && "blur-sm"
-            }`}
-          >
-            <Text userInput={userInput} testString={test.test} />
-          </div>
-
-          <input
-            autoFocus
-            ref={inputRef}
-            spellCheck={false}
-            autoCapitalize="none"
-            autoComplete="none"
-            className="absolute border-none bg-transparent opacity-0 outline-none"
-            onChange={(e) => handleTestInputChange(e)}
-            onBlur={() => setIsInputFocused(false)}
-            onFocus={() => setIsInputFocused(true)}
-            onPaste={(e) => e.preventDefault()}
-          />
-        </motion.div>
-      )}
+        <input
+          autoFocus
+          ref={inputRef}
+          spellCheck={false}
+          autoCapitalize="none"
+          autoComplete="none"
+          className="absolute border-none bg-transparent opacity-0 outline-none"
+          //handling the input change and updating state
+          onChange={handleTestInputChange}
+          onBlur={() => setIsInputFocused(false)}
+          onFocus={() => setIsInputFocused(true)}
+          onPaste={(e) => e.preventDefault()}
+        />
+      </motion.div>
     </AnimatePresence>
   );
 };

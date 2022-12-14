@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer components {
+  .word-incorrect {
+    border-bottom: solid 2px red;
+    transition: all 0.1s;
+  }
   .char-correct {
     color: white;
   }
@@ -11,9 +15,8 @@
     color: red;
   }
 
-  .word-incorrect {
-    border-bottom: solid 2px red;
-    transition: all 0.1s;
+  .char-extra {
+    color: rgb(141, 0, 0);
   }
 
   .char-inactive {

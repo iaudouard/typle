@@ -4,7 +4,7 @@ import { useTimer } from "react-timer-hook";
 type Props = {
   expiryTimestamp: Date;
   durationInSeconds: number;
-  onExpire: () => void;
+  onExpire: (testTimerLength: number) => void;
   isTimerStarted: boolean;
 };
 
@@ -13,7 +13,7 @@ export const Timer = (props: Props) => {
 
   const { seconds, start } = useTimer({
     expiryTimestamp,
-    onExpire: () => props.onExpire(),
+    onExpire: () => props.onExpire(15),
     autoStart: false,
   });
 

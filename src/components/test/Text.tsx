@@ -39,13 +39,13 @@ type WordProps = {
 
 const Word = (props: WordProps) => {
   const userInputWordList = props.userInput.split(" ");
+  const currUserInputWord = userInputWordList[props.index];
 
   return (
     <span
       className={
-        typeof userInputWordList[props.index] !== undefined &&
-        props.currWordIndex > props.index
-          ? userInputWordList[props.index]!.length < props.testWord.length
+        currUserInputWord && props.currWordIndex > props.index
+          ? currUserInputWord!.length < props.testWord.length
             ? "word-incorrect"
             : ""
           : ""
@@ -61,6 +61,17 @@ const Word = (props: WordProps) => {
           />
         );
       })}
+
+      {currUserInputWord && props.testWord.length < currUserInputWord!.length && (
+        <>
+          {currUserInputWord
+            ?.slice(props.testWord.length)
+            .split("")
+            .map((char, j) => {
+              return <ExtraChar char={char} />;
+            })}
+        </>
+      )}
     </span>
   );
 };
@@ -88,4 +99,12 @@ const Char = (props: CharProps) => {
       {props.char}
     </span>
   );
+};
+
+type ExtraCharProps = {
+  char: string;
+};
+
+const ExtraChar = (props: ExtraCharProps) => {
+  return <span className="char-extra duration-200">{props.char}</span>;
 };

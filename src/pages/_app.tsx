@@ -3,7 +3,7 @@ import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { Analytics } from "@vercel/analytics/react";
 
-import { trpc } from "../utils/trpc";
+import { trpc } from "../lib/trpc";
 
 import "../styles/globals.css";
 import TestContextProvider from "../context/TestContext";
