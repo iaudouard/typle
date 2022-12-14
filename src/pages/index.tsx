@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { Test } from "../components/test/Test";
 import { Result } from "../components/Result";
 import { TestContext } from "../context/TestContext";
+import { Header } from "../components/Header";
 
 const Home: NextPage = () => {
   const { test } = useContext(TestContext);
@@ -21,7 +22,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-black">
-        <h1 className="absolute top-4 text-4xl font-bold text-white">typle.</h1>
+        <Header />
         <section className="flex flex-grow items-center justify-center">
           <>{test.results.length < 6 ? <Test /> : <Result />}</>
         </section>
