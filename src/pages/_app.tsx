@@ -7,6 +7,7 @@ import { trpc } from "../lib/trpc";
 
 import "../styles/globals.css";
 import TestContextProvider from "../context/TestContext";
+import { Header } from "../components/Header";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -16,6 +17,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <>
       <SessionProvider session={session}>
         <TestContextProvider>
+          <Header />
           <Component {...pageProps} />
         </TestContextProvider>
       </SessionProvider>
