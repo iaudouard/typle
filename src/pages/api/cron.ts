@@ -27,7 +27,7 @@ export default async function cron(req: NextApiRequest, res: NextApiResponse) {
             test: newTest,
           },
         });
-        res.status(200).json({ success: true });
+        res.status(200).json({ success: true, test: newTest });
       } else {
         res.status(401).json({ success: false });
       }
