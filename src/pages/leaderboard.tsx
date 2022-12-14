@@ -42,7 +42,7 @@ const Leaderboard = () => {
                 >
                   <p>{`${i + 1}. ${testResult.wpm}  `}</p>
 
-                  <span className="italic">{`(${testResult.username})`}</span>
+                  <span className="italic">{testResult.username}</span>
                 </li>
               );
             })}
