@@ -29,7 +29,7 @@ model TestResult {
   testId    String
   test      Test     @relation(fields: [testId], references: [id])
   username  String   @default("Guest User")
-  wpm       String
+  wpm       Float
 }
 
 // Necessary for Next auth

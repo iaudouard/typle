@@ -11,10 +11,13 @@ import { calculateWpm } from "../../lib/test-stats";
 import { useContext } from "react";
 import { TestContext } from "../../context/TestContext";
 import { useTimerHook } from "../../hooks/useTimer";
+import { trpc } from "../../lib/trpc";
 
 export const Test = () => {
   const { test, setTest } = useContext(TestContext);
   const [userInput, setUserInput] = useState<string>("");
+
+  const resultMutation = trpc.test["post-result"].useMutation();
 
   const [hasCompletedTest, setHasCompletedTest] = useState<boolean>(false);
 
@@ -24,12 +27,14 @@ export const Test = () => {
   const onTestComplete = (testTimerLength: number): void => {
     const wpm = calculateWpm(testTimerLength, userInput, test.testBody);
 
-    const time = new Date();
-    time.setSeconds(time.getSeconds() + 15);
-    restart(time, false);
+    resultMutation.mutate({ username: "ivanadrd", wpm: wpm, testId: test.id });
 
     setHasCompletedTest(true);
     setTest({ ...test, results: [...test.results, wpm] });
+
+    const time = new Date();
+    time.setSeconds(time.getSeconds() + 15);
+    restart(time, false);
   };
 
   const { seconds, start, isRunning, restart } = useTimerHook({

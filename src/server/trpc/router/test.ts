@@ -1,5 +1,5 @@
 import { router, publicProcedure } from "../trpc";
-// import { z } from "zod";
+import { z } from "zod";
 import { prisma } from "../../db/client";
 
 export const testRouter = router({
@@ -21,5 +21,29 @@ export const testRouter = router({
       tests: tests,
     };
   }),
-  // 'post-result': publicProcedure.mutation()
+  "post-result": publicProcedure
+    .input(
+      z.object({
+        username: z.string(),
+        wpm: z.number(),
+        testId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const createRes = await prisma.testResult
+        .create({
+          data: {
+            username: input.username,
+            wpm: input.wpm,
+            testId: input.testId,
+          },
+        })
+        .catch((err) => {
+          throw err;
+        });
+
+      return {
+        message: "success",
+      };
+    }),
 });
