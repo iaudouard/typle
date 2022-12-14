@@ -21,8 +21,7 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-black">
-        <Header />
+      <main className="page-container flex-col items-center justify-center">
         <section className="flex flex-grow items-center justify-center">
           <>{test.results.length < 6 ? <Test /> : <Result />}</>
         </section>
