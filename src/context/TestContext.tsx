@@ -1,10 +1,9 @@
 import React, {
   createContext,
-  useContext,
   useEffect,
   useState,
-  Dispatch,
-  SetStateAction,
+  type Dispatch,
+  type SetStateAction,
 } from "react";
 import { Loading } from "../components/Loading";
 import type { Test } from "../types/Test";

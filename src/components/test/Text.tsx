@@ -51,13 +51,13 @@ const Word = (props: WordProps) => {
           : ""
       }
     >
-      {props.testWord.split("").map((char, j) => {
+      {props.testWord.split("").map((char, i) => {
         return (
           <Char
             userInput={userInputWordList[props.index]}
             char={char}
-            index={j}
-            key={j}
+            index={i}
+            key={i}
           />
         );
       })}
@@ -67,8 +67,8 @@ const Word = (props: WordProps) => {
           {currUserInputWord
             ?.slice(props.testWord.length)
             .split("")
-            .map((char, j) => {
-              return <ExtraChar char={char} />;
+            .map((char, i) => {
+              return <ExtraChar char={char} key={i} />;
             })}
         </>
       )}

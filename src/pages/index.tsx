@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 // import { signIn, signOut, useSession } from "next-auth/react";
 
 import { Test } from "../components/test/Test";

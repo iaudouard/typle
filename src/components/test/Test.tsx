@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "../Button";
 import { Result } from "./Wpm";
 import { Text } from "./Text";
-import { Timer } from "./Timer";
 
 import { FaRedo } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
@@ -76,7 +75,7 @@ export const Test = () => {
     return () => {
       window.removeEventListener("keydown", handleTab);
     };
-  }, [hasCompletedTest]);
+  }, [hasCompletedTest, handleTab]);
 
   if (hasCompletedTest) {
     return (

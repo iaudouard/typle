@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { TestContext } from "../../context/TestContext";
-import { calculateWpm } from "../../lib/test-stats";
 
 export const Result = () => {
   const { test } = useContext(TestContext);

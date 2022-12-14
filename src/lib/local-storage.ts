@@ -1,5 +1,5 @@
 import { PAST_TEST_STATS_KEY } from "./../constants/local-storage-keys";
-import { Test } from "../types/Test";
+import type { Test } from "../types/Test";
 
 export function setLS(key: string, value: any) {
   return localStorage.setItem(key, JSON.stringify(value));
