@@ -6,7 +6,6 @@ import { useContext } from "react";
 import { Test } from "../components/test/Test";
 import { Result } from "../components/Result";
 import { TestContext } from "../context/TestContext";
-import { Header } from "../components/Header";
 
 const Home: NextPage = () => {
   const { test } = useContext(TestContext);

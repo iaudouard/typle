@@ -2,9 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { MdLeaderboard } from "react-icons/md";
 
-type Props = {};
-
-export const Header = (props: Props) => {
+export const Header = () => {
   const router = useRouter();
 
   const handleRouteChange = (route: string) => {

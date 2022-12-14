@@ -75,7 +75,7 @@ export const Test = () => {
     return () => {
       window.removeEventListener("keydown", handleTab);
     };
-  }, [hasCompletedTest, handleTab]);
+  }, [hasCompletedTest]);
 
   if (hasCompletedTest) {
     return (
