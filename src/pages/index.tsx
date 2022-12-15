@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { Test } from "../components/test/Test";
 import { Result } from "../components/Result";
 import { TestContext } from "../context/TestContext";
+import { UsernameAlert } from "../components/UsernameAlert";
 
 const Home: NextPage = () => {
   const { isTestShown } = useContext(TestContext);
@@ -21,6 +22,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="page-container flex-col items-center justify-center">
+        <UsernameAlert />
         <section className="flex flex-grow items-center justify-center">
           <>{isTestShown ? <Test /> : <Result />}</>
         </section>

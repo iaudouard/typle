@@ -11,6 +11,7 @@ import { useContext } from "react";
 import { TestContext } from "../../context/TestContext";
 import { useTimerHook } from "../../hooks/useTimer";
 import { trpc } from "../../lib/trpc";
+import { getLS } from "../../lib/local-storage";
 
 export const Test = () => {
   const { test, setTest } = useContext(TestContext);
@@ -26,7 +27,12 @@ export const Test = () => {
   const onTestComplete = (testTimerLength: number): void => {
     const wpm = calculateWpm(testTimerLength, userInput, test.testBody);
 
-    resultMutation.mutate({ username: "ivanadrd", wpm: wpm, testId: test.id });
+    const username = getLS("username");
+    if (username) {
+      resultMutation.mutate({ username: username, wpm: wpm, testId: test.id });
+    } else {
+      resultMutation.mutate({ wpm: wpm, testId: test.id });
+    }
 
     setHasCompletedTest(true);
     setTest({ ...test, results: [...test.results, wpm] });
@@ -111,7 +117,7 @@ export const Test = () => {
 
         <div
           onClick={() => setIsInputFocused(true)}
-          className={`z-50 w-full py-2 transition duration-300 ${
+          className={`z-20 w-full py-2 transition duration-300 ${
             !isInputFocused && "blur-sm"
           }`}
         >

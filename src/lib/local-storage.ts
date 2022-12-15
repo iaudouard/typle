@@ -47,3 +47,12 @@ export function fetchTestResultsLocally(testId: string) {
 
   return undefined;
 }
+
+export function fetchUsernameLocally() {
+  const username = getLS("username");
+  return username;
+}
+
+export function setLocalUsername(username: string) {
+  setLS("username", username);
+}

@@ -23,7 +23,7 @@ export const testRouter = router({
   "post-result": publicProcedure
     .input(
       z.object({
-        username: z.string(),
+        username: z.string().optional(),
         wpm: z.number(),
         testId: z.string(),
       })
