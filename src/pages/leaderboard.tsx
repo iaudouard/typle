@@ -31,18 +31,21 @@ const Leaderboard = () => {
           whileInView="visible"
           exit="exit"
           transition={transition}
-          className="w-1/3"
+          className="flex h-2/3 w-1/3 flex-col items-center justify-between p-4"
         >
-          <ul>
+          <h2 className="mb-4 text-3xl font-semibold text-white">
+            Leaderboard
+          </h2>
+          <ul className="max-h-96 w-4/5 overflow-auto">
             {leaderboard.data.leaderboard.map((testResult, i) => {
               return (
                 <li
                   key={i}
-                  className="my-4 flex items-center justify-between rounded-md bg-gray-400 py-2 px-4 text-2xl font-semibold text-white"
+                  className="my-4 flex items-center justify-between rounded-md bg-dark-gray py-2 px-4 text-2xl font-semibold text-white"
                 >
                   <p>{`${i + 1}. ${testResult.wpm}  `}</p>
 
-                  <span className="italic">{testResult.username}</span>
+                  <p className="italic">{testResult.username}</p>
                 </li>
               );
             })}
