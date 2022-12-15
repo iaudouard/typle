@@ -8,7 +8,7 @@ import { Result } from "../components/Result";
 import { TestContext } from "../context/TestContext";
 
 const Home: NextPage = () => {
-  const { test } = useContext(TestContext);
+  const { isTestShown } = useContext(TestContext);
 
   return (
     <>
@@ -22,7 +22,7 @@ const Home: NextPage = () => {
       </Head>
       <main className="page-container flex-col items-center justify-center">
         <section className="flex flex-grow items-center justify-center">
-          <>{test.results.length < 6 ? <Test /> : <Result />}</>
+          <>{isTestShown ? <Test /> : <Result />}</>
         </section>
       </main>
     </>
