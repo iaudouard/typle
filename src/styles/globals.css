@@ -31,4 +31,16 @@
   .btn-bg:hover {
     background-color: rgba(125, 125, 125, 0.35);
   }
+
+  .bg-blur {
+    backdrop-filter: blur(5px);
+  }
+
+  .bb-solid {
+    border-bottom: 2px solid white;
+  }
+
+  .error-color {
+    color: red;
+  }
 }

@@ -31,7 +31,10 @@ export const Test = () => {
     if (username) {
       resultMutation.mutate({ username: username, wpm: wpm, testId: test.id });
     } else {
-      resultMutation.mutate({ wpm: wpm, testId: test.id });
+      resultMutation.mutate({
+        wpm: wpm,
+        testId: test.id,
+      });
     }
 
     setHasCompletedTest(true);

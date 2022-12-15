@@ -1,4 +1,7 @@
-import { PAST_TEST_STATS_KEY } from "./../constants/local-storage-keys";
+import {
+  PAST_TEST_STATS_KEY,
+  USERNAME_KEY,
+} from "./../constants/local-storage-keys";
 import type { Test } from "../types/Test";
 
 export function setLS(key: string, value: any) {
@@ -49,10 +52,10 @@ export function fetchTestResultsLocally(testId: string) {
 }
 
 export function fetchUsernameLocally() {
-  const username = getLS("username");
+  const username = getLS(USERNAME_KEY);
   return username;
 }
 
 export function setLocalUsername(username: string) {
-  setLS("username", username);
+  setLS(USERNAME_KEY, username);
 }

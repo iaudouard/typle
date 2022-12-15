@@ -9,12 +9,15 @@ import "../styles/globals.css";
 import TestContextProvider from "../context/TestContext";
 import { Header } from "../components/Header";
 
+import { Toaster } from "react-hot-toast";
+
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
     <>
+      <Toaster />
       <SessionProvider session={session}>
         <TestContextProvider>
           <Header />
