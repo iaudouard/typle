@@ -17,7 +17,7 @@ export const testRouter = router({
         throw err;
       });
     return {
-      tests: tests,
+      test: tests[0],
     };
   }),
   "post-result": publicProcedure
