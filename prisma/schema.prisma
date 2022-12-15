@@ -28,7 +28,7 @@ model TestResult {
   createdAt DateTime @default(now())
   testId    String
   test      Test     @relation(fields: [testId], references: [id])
-  username  String   @default("Guest User")
+  username  String?   @default("Guest User")
   wpm       Float
 }
 
