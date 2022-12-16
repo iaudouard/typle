@@ -1,11 +1,13 @@
-import { motion } from "framer-motion";
 import React, { useContext } from "react";
+
 import { transition, variants } from "../constants/animation-values";
 import { TestContext } from "../context/TestContext";
 
+import { motion } from "framer-motion";
+
 // type Props = {};
 
-export const Result = () => {
+export const ResultsChart = () => {
   const { test } = useContext(TestContext);
 
   return (

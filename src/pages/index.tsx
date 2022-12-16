@@ -4,7 +4,7 @@ import { useContext } from "react";
 // import { signIn, signOut, useSession } from "next-auth/react";
 
 import { Test } from "../components/test/Test";
-import { Result } from "../components/Result";
+import { ResultsChart } from "../components/ResultsChart";
 import { TestContext } from "../context/TestContext";
 import { UsernameAlert } from "../components/UsernameAlert";
 
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
       <main className="page-container flex-col items-center justify-center">
         <UsernameAlert />
         <section className="flex flex-grow items-center justify-center">
-          <>{isTestShown ? <Test /> : <Result />}</>
+          <>{isTestShown ? <Test /> : <ResultsChart />}</>
         </section>
       </main>
     </>
