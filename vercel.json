@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron?key=27c2RNB8vg!t1WMK",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}

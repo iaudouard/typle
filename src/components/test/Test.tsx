@@ -1,17 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../Button";
-import { Result } from "./Wpm";
 import { Text } from "./Text";
+import { Result } from "./Wpm";
 
-import { FaRedo } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
-import { transition, variants } from "../../constants/animation-values";
-import { calculateWpm } from "../../lib/test-stats";
+import { AnimatePresence, motion } from "framer-motion";
 import { useContext } from "react";
+import { FaRedo } from "react-icons/fa";
+import { transition, variants } from "../../constants/animation-values";
 import { TestContext } from "../../context/TestContext";
 import { useTimerHook } from "../../hooks/useTimer";
+import { calculateWpm } from "../../lib/test-stats";
 import { trpc } from "../../lib/trpc";
-import { getLS } from "../../lib/local-storage";
 
 export const Test = () => {
   const { test, setTest } = useContext(TestContext);
@@ -27,15 +26,10 @@ export const Test = () => {
   const onTestComplete = (testTimerLength: number): void => {
     const wpm = calculateWpm(testTimerLength, userInput, test.testBody);
 
-    const username = getLS("username");
-    if (username) {
-      resultMutation.mutate({ username: username, wpm: wpm, testId: test.id });
-    } else {
-      resultMutation.mutate({
-        wpm: wpm,
-        testId: test.id,
-      });
-    }
+    resultMutation.mutate({
+      wpm: wpm,
+      testId: test.id,
+    });
 
     setHasCompletedTest(true);
     setTest({ ...test, results: [...test.results, wpm] });
