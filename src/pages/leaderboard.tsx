@@ -1,59 +1,54 @@
-import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
-import React, { useContext } from "react";
-import { Loading } from "../components/Loading";
-import { transition, variants } from "../constants/animation-values";
-import { TestContext } from "../context/TestContext";
-import { trpc } from "../lib/trpc";
+import Spinner from "~/components/spinner";
+import { api } from "~/utils/api";
 
-const Leaderboard = () => {
-  const { test } = useContext(TestContext);
-  const leaderboard = trpc.leaderboard.get.useQuery({ testId: test.id });
+export default function Leaderboard() {
+  const leaderboard = api.leaderboard.get.useQuery();
+  const { data: sessionData } = useSession();
 
-  if (!leaderboard.data) {
-    return <Loading />;
+  if (leaderboard.isLoading && !leaderboard.data) {
+    return <Spinner />;
   }
+  if (leaderboard.isError)
+    return (
+      <div className="flex items-center justify-center text-2xl font-semibold text-white">
+        Failed to load leaderboard
+      </div>
+    );
   return (
     <>
       <Head>
-        <title>leaderboard - typle.</title>
-        <meta
-          name="description"
-          content="Leaderboard page for typle - a Wordle-like typing game with global leaderboard."
-        />
+        <title>leaderboard - typle</title>
+        <meta name="description" content="typeracer wordle" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="page-container items-center justify-center">
-        {/* leaderboard list section */}
-        <motion.section
-          variants={variants}
-          initial="hidden"
-          whileInView="visible"
-          exit="exit"
-          transition={transition}
-          className="flex h-2/3 w-1/3 flex-col items-center justify-between p-4"
-        >
-          <h2 className="mb-4 text-3xl font-semibold text-white">
-            Leaderboard
-          </h2>
-          <ul className="max-h-96 w-4/5 overflow-auto">
-            {leaderboard.data.leaderboard.map((testResult, i) => {
-              return (
-                <li
-                  key={i}
-                  className="my-4 flex items-center justify-between rounded-md bg-dark-gray py-2 px-4 text-2xl font-semibold text-white"
+      <main className="flex min-h-screen flex-col items-center justify-center gap-4">
+        {leaderboard.data && leaderboard.data.length > 0 ? (
+          <div className="w-1/4">
+            <h1 className="mb-4 text-xl font-semibold text-white">
+              Daily Leaderboard:
+            </h1>
+            <div className="h-[30rem] overflow-auto">
+              {leaderboard.data.map((result, index) => (
+                <div
+                  key={index}
+                  className={`mt-2 flex w-full justify-between rounded-md border-2 border-white p-2 font-medium ${
+                    result.user.id === sessionData?.user.id
+                      ? "bg-white text-black"
+                      : "bg-black text-white"
+                  }`}
                 >
-                  <p>{`${i + 1}. ${testResult.wpm}  `}</p>
-
-                  <p className="italic">{testResult.username}</p>
-                </li>
-              );
-            })}
-          </ul>
-        </motion.section>
+                  <h2>{result.user.name}</h2>
+                  <h2>{result.wpm}</h2>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <h1 className="text-white">No results yet</h1>
+        )}
       </main>
     </>
   );
-};
-
-export default Leaderboard;
+}
