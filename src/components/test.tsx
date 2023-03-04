@@ -34,7 +34,7 @@ export default function Test() {
             <span className="text-xl">wpm</span>
           </h1>
           <div
-            className="ml-4 cursor-pointer rounded-md p-2 duration-300 hover:bg-stone-800"
+            className="relative left-4 cursor-pointer rounded-md p-2 duration-300 hover:bg-stone-800"
             onClick={resetGame}
           >
             <FaChevronRight size={24} color="white" />

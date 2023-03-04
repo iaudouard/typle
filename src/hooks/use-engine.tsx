@@ -45,6 +45,8 @@ export default function useEngine() {
             testId: test.data.id,
             wpm: tempWpm,
           });
+        } else {
+          notifyError("You must be logged in to save your results");
         }
       }
       setGameState("finished");
