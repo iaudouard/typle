@@ -20,8 +20,8 @@ export default function Test() {
 
   if (test.isError)
     return (
-      <div className="flex items-center justify-center text-2xl font-semibold text-white">
-        Failed to load test
+      <div className="flex items-center justify-center">
+        <h1 className="text-white">Failed to load test</h1>
       </div>
     );
   if (test.isLoading || !test.data) return <Spinner />;

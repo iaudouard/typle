@@ -12,8 +12,8 @@ export default function Leaderboard() {
   }
   if (leaderboard.isError)
     return (
-      <div className="flex items-center justify-center text-2xl font-semibold text-white">
-        Failed to load leaderboard
+      <div className="flex items-center justify-center">
+        <h1 className="text-white">Failed to load leaderboard</h1>
       </div>
     );
   return (
