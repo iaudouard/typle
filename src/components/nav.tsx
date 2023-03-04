@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { MdLeaderboard, MdPerson } from "react-icons/md";
 
-export const Header = () => {
+export const Nav = () => {
   return (
     <header className="absolute top-0 left-0 grid w-screen grid-cols-2 p-8">
       <Title />

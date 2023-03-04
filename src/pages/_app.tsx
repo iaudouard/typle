@@ -6,7 +6,7 @@ import { Toaster } from "react-hot-toast";
 import { Analytics } from "@vercel/analytics/react";
 import { api } from "~/utils/api";
 
-import { Header } from "~/components/header";
+import { Nav } from "~/components/nav";
 import "~/styles/globals.css";
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -15,7 +15,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Header />
+      <Nav />
       <Component {...pageProps} />
       <Toaster />
       <Analytics />
