@@ -6,6 +6,7 @@ export default function Test() {
   const { timeLeft, typed, gameState, test, wpm } = useEngine();
 
   if (test.isLoading || !test.data) return <Spinner />;
+  if (test.isError) return <div>Something went wrong</div>;
   return (
     <section className="flex w-3/5 flex-col gap-4">
       {gameState === "finished" ? (

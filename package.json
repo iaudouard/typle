@@ -17,6 +17,7 @@
     "@trpc/next": "^10.9.0",
     "@trpc/react-query": "^10.9.0",
     "@trpc/server": "^10.9.0",
+    "@types/react-lottie": "^1.2.6",
     "classnames": "^2.3.2",
     "framer-motion": "^9.1.6",
     "next": "13.1.6",
@@ -24,6 +25,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
+    "react-lottie": "^1.2.3",
     "react-timer-hook": "^3.0.5",
     "superjson": "1.9.1",
     "zod": "^3.20.2"
