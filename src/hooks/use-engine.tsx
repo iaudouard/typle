@@ -45,5 +45,12 @@ export default function useEngine() {
     }
   }, [gameState, timeLeft]);
 
-  return { gameState, timeLeft, typed, test, wpm };
+  function resetGame() {
+    reset();
+    clearTyped();
+    resetTotalTyped();
+    setGameState("idle");
+  }
+
+  return { gameState, timeLeft, typed, test, wpm, resetGame };
 }

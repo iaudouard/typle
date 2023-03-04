@@ -1,20 +1,46 @@
 import cn from "classnames";
+import { useEffect } from "react";
+import Lottie from "react-lottie";
 import useEngine from "~/hooks/use-engine";
+import animationData from "~/lotties/arrowRightCircle.json";
 import Spinner from "./spinner";
 
 export default function Test() {
-  const { timeLeft, typed, gameState, test, wpm } = useEngine();
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const { timeLeft, typed, gameState, test, wpm, resetGame } = useEngine();
+
+  useEffect(() => {
+    if (gameState === "finished") {
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Tab") {
+          e.preventDefault();
+          resetGame();
+        }
+      });
+    }
+  }, [gameState]);
 
   if (test.isLoading || !test.data) return <Spinner />;
   if (test.isError) return <div>Something went wrong</div>;
   return (
     <section className="flex w-3/5 flex-col gap-4">
       {gameState === "finished" ? (
-        <div className="flex w-full items-center justify-center">
-          <h1 className="text-5xl font-semibold text-white">
+        <div className="relative flex w-full flex-col items-center justify-center">
+          <h1 className="text-7xl font-semibold text-white">
             {wpm}
-            <span className="text-2xl">wpm</span>
+            <span className="text-xl">wpm</span>
           </h1>
+          <div className="absolute mt-60">
+            <Lottie options={defaultOptions} height={40} width={40} />
+          </div>
         </div>
       ) : (
         <>
