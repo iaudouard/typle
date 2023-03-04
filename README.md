@@ -1,28 +1,41 @@
-# Create T3 App
+# typle
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Daily typeracer test - you get to be on leaderboard if you have an account
 
-## What's next? How do I make an app with this?
+![Screenshot 2023-03-05 at 4.00.57 AM](inkdrop://file:KaO2lhc69)
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Built with
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- Project was bootstrapped using the T3 stack
+  - NextJS
+  - Typescript
+  - tRPC
+  - NextAuth.js
+  - Prisma
+  - MySQL
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## How to run
 
-## Learn More
+Clone the repo
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+```
+git clone git@github.com:iaudouard/typle.git
+```
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+Create `.env` with `.env.example` variables
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+```
+touch .env
+```
 
-## How do I deploy this?
+Download dependencies
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+```
+yarn
+```
+
+Run locally
+
+```
+yarn dev
+```
