@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 
 import { api } from "~/utils/api";
 
-import { Header } from "~/components/header";
+import { Header } from "~/components/Header";
 import "~/styles/globals.css";
 
 const MyApp: AppType<{ session: Session | null }> = ({
