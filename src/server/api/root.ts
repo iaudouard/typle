@@ -1,7 +1,6 @@
-import { exampleRouter } from "~/server/api/routers/example";
+import { leaderboardRouter } from "~/server/api/routers/leaderboard";
 import { testRouter } from "~/server/api/routers/test";
 import { createTRPCRouter } from "~/server/api/trpc";
-import { leaderboardRouter } from "./routers/leaderboard";
 
 /**
  * This is the primary router for your server.
@@ -9,7 +8,6 @@ import { leaderboardRouter } from "./routers/leaderboard";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  example: exampleRouter,
   test: testRouter,
   leaderboard: leaderboardRouter,
 });
