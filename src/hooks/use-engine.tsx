@@ -51,6 +51,12 @@ export default function useEngine() {
     }
   }, [gameState, timeLeft]);
 
+  useEffect(() => {
+    if (test.isError) {
+      notifyError("Failed to load test: " + test.error.message);
+    }
+  }, [test]);
+
   function resetGame() {
     reset();
     clearTyped();

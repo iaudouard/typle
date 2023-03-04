@@ -10,7 +10,12 @@ export default function Leaderboard() {
   if (leaderboard.isLoading && !leaderboard.data) {
     return <Spinner />;
   }
-
+  if (leaderboard.isError)
+    return (
+      <div className="flex items-center justify-center text-2xl font-semibold text-white">
+        Failed to load leaderboard
+      </div>
+    );
   return (
     <>
       <Head>

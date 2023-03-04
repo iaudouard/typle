@@ -18,6 +18,12 @@ export default function Test() {
     }
   }, [gameState]);
 
+  if (test.isError)
+    return (
+      <div className="flex items-center justify-center text-2xl font-semibold text-white">
+        Failed to load test
+      </div>
+    );
   if (test.isLoading || !test.data) return <Spinner />;
   return (
     <section className="flex w-3/5 flex-col gap-4">
