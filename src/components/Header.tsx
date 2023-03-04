@@ -1,50 +1,42 @@
 import { useRouter } from "next/router";
-import React from "react";
-import { MdLeaderboard } from "react-icons/md";
-import { TestTriesDisplay } from "./TestTriesDisplay";
+import { MdLeaderboard, MdPerson } from "react-icons/md";
 
 export const Header = () => {
-  const router = useRouter();
-
-  const handleRouteChange = (route: string) => {
-    router.push(route);
-  };
   return (
-    <header className="absolute top-0 left-0 grid w-screen grid-cols-3 p-8">
-      <TestTriesDisplay />
-      <Title handleClick={() => handleRouteChange("/")} />
-      <IconsContainer handleClick={() => handleRouteChange("/leaderboard")} />
+    <header className="absolute top-0 left-0 grid w-screen grid-cols-2 p-8">
+      <Title />
+      <IconsContainer />
     </header>
   );
 };
 
-type IconsContainerProps = {
-  handleClick: () => void;
-};
-
-const IconsContainer = (props: IconsContainerProps) => {
+const IconsContainer = () => {
+  const router = useRouter();
   return (
-    <div className="flex items-center justify-end">
+    <div className="flex items-center justify-end gap-8">
       <MdLeaderboard
         color="white"
         size={24}
         className="cursor-pointer"
-        onClick={props.handleClick}
+        onClick={() => router.push("/leaderboard")}
+      />
+      <MdPerson
+        color="white"
+        size={24}
+        className="cursor-pointer"
+        onClick={() => router.push("/account")}
       />
     </div>
   );
 };
 
-type TitleProps = {
-  handleClick: () => void;
-};
-
-const Title = (props: TitleProps) => {
+const Title = () => {
+  const router = useRouter();
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-start">
       <h1
         className="cursor-pointer text-4xl font-bold text-white"
-        onClick={props.handleClick}
+        onClick={() => router.push("/")}
       >
         typle.
       </h1>

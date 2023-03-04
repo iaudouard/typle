@@ -1,10 +1,13 @@
 import { promises as fs } from "fs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import path from "path";
-import { prisma } from "../../server/db/client";
-import { createTest } from "../../server/test-utils/create-test";
+import { prisma } from "~/server/db";
+import { createTest } from "~/utils/create-test";
 
-export default async function cron(req: NextApiRequest, res: NextApiResponse) {
+export default async function createTestCron(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.query.key !== process.env.CRON_KEY) {
     res.status(404).end();
     return;
@@ -20,7 +23,7 @@ export default async function cron(req: NextApiRequest, res: NextApiResponse) {
 
   await prisma.test.create({
     data: {
-      test: newTest,
+      body: newTest,
     },
   });
   res.status(200).json({ success: true, test: newTest });

@@ -1,7 +1,4 @@
-function calculateNumberOfCorrectWordChars(
-  testUserInput: string,
-  test: string
-) {
+function sumCorrect(testUserInput: string, test: string) {
   let numberOfCorrectChars = 0;
   const userInputWords = testUserInput.split(" ");
   const testWords = test.split(" ");
@@ -23,10 +20,7 @@ export function calculateWpm(
   testUserInput: string,
   test: string
 ) {
-  const wpm =
-    calculateNumberOfCorrectWordChars(testUserInput, test) /
-    5 /
-    (testDuration / 60);
+  const wpm = sumCorrect(testUserInput, test) / 5 / (testDuration / 60);
 
   return wpm;
 }

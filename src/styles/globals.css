@@ -2,45 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .page-container {
-    display: flex;
-    background-color: black;
-    min-height: 100vh;
-  }
-  .word-incorrect {
-    border-bottom: solid 2px red;
-    transition: all 0.1s;
-  }
-  .char-correct {
-    color: white;
-  }
-
-  .char-incorrect {
-    color: red;
-  }
-
-  .char-extra {
-    color: rgb(141, 0, 0);
-  }
-
-  .char-inactive {
-    color: gray;
-  }
-
-  .btn-bg:hover {
-    background-color: rgba(125, 125, 125, 0.35);
-  }
-
-  .bg-blur {
-    backdrop-filter: blur(5px);
-  }
-
-  .bb-solid {
-    border-bottom: 2px solid white;
-  }
-
-  .error-color {
-    color: red;
+@layer base {
+  body {
+    @apply min-h-screen bg-black;
   }
 }
