@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import { calculateWpm } from "~/utils/test-stats";
 import { useCountdownTimer } from "./use-countdown-timer";
@@ -17,8 +18,15 @@ export default function useEngine() {
     gameState !== "finished"
   );
   const [wpm, setWpm] = useState<number>();
-  const result = api.test.postResult.useMutation();
+  const result = api.test.postResult.useMutation({
+    onError: (error) => {
+      notifyError("Failed to upload result: " + error.message);
+      return;
+    },
+  });
   const { data: sessionData } = useSession();
+
+  const notifyError = (err: string) => toast.error(err);
 
   useEffect(() => {
     if (gameState === "idle" && cursor > 0) {
@@ -38,8 +46,6 @@ export default function useEngine() {
             wpm: tempWpm,
           });
         }
-      } else {
-        throw new Error("Test was undefined");
       }
       setGameState("finished");
     }

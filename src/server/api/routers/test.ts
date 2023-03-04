@@ -1,4 +1,5 @@
 import { Result, Test } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { prisma } from "~/server/db";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
@@ -12,7 +13,10 @@ export const testRouter = createTRPCRouter({
     });
 
     if (!test) {
-      throw new Error("No test found");
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "No test found",
+      });
     }
     return test;
   }),
@@ -25,7 +29,10 @@ export const testRouter = createTRPCRouter({
           },
         });
         if (!test) {
-          throw new Error("No test found");
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "No test found",
+          });
         }
 
         const leaderboard = await tx.result.findMany({
@@ -60,7 +67,10 @@ export const testRouter = createTRPCRouter({
         });
 
         if (currResults.length >= 6) {
-          throw new Error("Test result limit reached");
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "You have already taken this test 6 times",
+          });
         }
 
         const testResult = await tx.result.create({

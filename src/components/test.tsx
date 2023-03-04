@@ -1,28 +1,11 @@
 import cn from "classnames";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
-import Lottie from "react-lottie";
+import { FaChevronRight } from "react-icons/fa";
 import useEngine from "~/hooks/use-engine";
-import animationData from "~/lotties/arrow-right-circle.json";
-import { api } from "~/utils/api";
 import Spinner from "./spinner";
 
 export default function Test() {
-  const defaultOptions = {
-    loop: false,
-    autoplay: false,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-  const { data: sessionData } = useSession();
-  const userResults = sessionData
-    ? api.test.getUserResults.useQuery()
-    : undefined;
   const { timeLeft, typed, gameState, test, wpm, resetGame } = useEngine();
-  const router = useRouter();
 
   useEffect(() => {
     if (gameState === "finished") {
@@ -35,29 +18,20 @@ export default function Test() {
     }
   }, [gameState]);
 
-  useEffect(() => {
-    if (userResults) {
-      if (userResults.data) {
-        if (userResults.data.length >= 6) {
-          router.push("/leaderboard");
-        }
-      }
-    }
-  }, [userResults]);
-
   if (test.isLoading || !test.data) return <Spinner />;
-
-  if (userResults) if (userResults.isFetching) return <Spinner />;
   return (
     <section className="flex w-3/5 flex-col gap-4">
       {gameState === "finished" ? (
-        <div className="relative flex w-full flex-col items-center justify-center">
+        <div className="flex w-full items-center justify-center">
           <h1 className="text-7xl font-semibold text-white">
             {wpm}
             <span className="text-xl">wpm</span>
           </h1>
-          <div className="absolute mt-60" onClick={resetGame}>
-            <Lottie options={defaultOptions} height={40} width={40} />
+          <div
+            className="ml-4 cursor-pointer rounded-md p-2 duration-300 hover:bg-stone-800"
+            onClick={resetGame}
+          >
+            <FaChevronRight size={24} color="white" />
           </div>
         </div>
       ) : (
