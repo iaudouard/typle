@@ -1,8 +1,11 @@
 import cn from "classnames";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Lottie from "react-lottie";
 import useEngine from "~/hooks/use-engine";
-import animationData from "~/lotties/arrowRightCircle.json";
+import animationData from "~/lotties/arrow-right-circle.json";
+import { api } from "~/utils/api";
 import Spinner from "./spinner";
 
 export default function Test() {
@@ -14,8 +17,12 @@ export default function Test() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-
+  const { data: sessionData } = useSession();
+  const userResults = sessionData
+    ? api.test.getUserResults.useQuery()
+    : undefined;
   const { timeLeft, typed, gameState, test, wpm, resetGame } = useEngine();
+  const router = useRouter();
 
   useEffect(() => {
     if (gameState === "finished") {
@@ -28,8 +35,19 @@ export default function Test() {
     }
   }, [gameState]);
 
+  useEffect(() => {
+    if (userResults) {
+      if (userResults.data) {
+        if (userResults.data.length >= 6) {
+          router.push("/leaderboard");
+        }
+      }
+    }
+  }, [userResults]);
+
   if (test.isLoading || !test.data) return <Spinner />;
-  if (test.isError) return <div>Something went wrong</div>;
+
+  if (userResults) if (userResults.isFetching) return <Spinner />;
   return (
     <section className="flex w-3/5 flex-col gap-4">
       {gameState === "finished" ? (
