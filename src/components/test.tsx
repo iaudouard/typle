@@ -7,8 +7,8 @@ import Spinner from "./spinner";
 
 export default function Test() {
   const defaultOptions = {
-    loop: true,
-    autoplay: true,
+    loop: false,
+    autoplay: false,
     animationData: animationData,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
@@ -38,7 +38,7 @@ export default function Test() {
             {wpm}
             <span className="text-xl">wpm</span>
           </h1>
-          <div className="absolute mt-60">
+          <div className="absolute mt-60" onClick={resetGame}>
             <Lottie options={defaultOptions} height={40} width={40} />
           </div>
         </div>
