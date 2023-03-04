@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/create-test-cron?key=1234567890",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}
