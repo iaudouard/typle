@@ -11,6 +11,7 @@ export default function Account() {
       toast.success("Successfully uploaded browser results", {
         id: "results-save-success",
       });
+      localStorage.removeItem("results");
     },
     onError: (error) => {
       toast.error("Failed to upload browser results: " + error.message, {
@@ -23,7 +24,6 @@ export default function Account() {
   });
 
   useEffect(() => {
-    console.log("sessionData", sessionData);
     if (sessionData) {
       const results = localStorage.getItem("results");
       if (results) {

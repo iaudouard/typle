@@ -96,6 +96,7 @@ export const resultsRouter = createTRPCRouter({
       z.array(
         z.object({
           testId: z.string(),
+          id: z.string(),
         })
       )
     )
@@ -118,6 +119,7 @@ export const resultsRouter = createTRPCRouter({
             where: {
               testId: test.testId,
               userId: null,
+              id: test.id,
             },
             data: {
               userId: ctx.session.user.id,
