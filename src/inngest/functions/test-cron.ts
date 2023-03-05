@@ -3,7 +3,7 @@ import { InngestFunction } from "inngest/components/InngestFunction";
 import path from "path";
 import { prisma } from "~/server/db";
 import { createTest } from "~/utils/create-test";
-import inngest from "../inngest";
+import { inngest } from "../client";
 
 const fn: InngestFunction<any> = inngest.createFunction(
   { name: "test update cron" },

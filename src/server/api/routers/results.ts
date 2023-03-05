@@ -6,7 +6,7 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const resultsRouter = createTRPCRouter({
   getLeaderboard: publicProcedure.query(
-    async (): Promise<{ user: User; wpm: number }[]> => {
+    async (): Promise<{ user: User | null; wpm: number }[]> => {
       const test = await prisma.test.findFirst({
         orderBy: {
           createdAt: "desc",
