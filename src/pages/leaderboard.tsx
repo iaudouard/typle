@@ -1,11 +1,22 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 import Spinner from "~/components/spinner";
 import { api } from "~/utils/api";
 
 export default function Leaderboard() {
   const leaderboard = api.results.getLeaderboard.useQuery();
+
+  const [localResultIds, setLocalResultIds] = useState<string[]>([]);
   const { data: sessionData } = useSession();
+
+  useEffect(() => {
+    const locals = localStorage.getItem("results");
+    if (locals) {
+      const parsedResults = JSON.parse(locals);
+      setLocalResultIds(parsedResults.map((result: any) => result.id));
+    }
+  }, [localResultIds]);
 
   if (leaderboard.isLoading && !leaderboard.data) {
     return <Spinner />;
@@ -30,19 +41,46 @@ export default function Leaderboard() {
               Daily Leaderboard:
             </h1>
             <div className="h-[30rem] overflow-auto">
-              {leaderboard.data.map((result, index) => (
-                <div
-                  key={index}
-                  className={`mt-2 flex w-full justify-between rounded-md border-2 border-white p-2 font-medium ${
-                    result.user?.id === sessionData?.user.id
-                      ? "bg-white text-black"
-                      : "bg-black text-white"
-                  }`}
-                >
-                  <h2>{result.user?.name}</h2>
-                  <h2>{result.wpm}</h2>
-                </div>
-              ))}
+              {leaderboard.data.map(
+                (result, index) =>
+                  result.user ? (
+                    <div
+                      key={index}
+                      className={`mt-2 flex w-full justify-between rounded-md border-2 border-white p-2 font-medium ${
+                        result.user.id === sessionData?.user.id
+                          ? "bg-white text-black"
+                          : "bg-black text-white"
+                      }`}
+                    >
+                      <h2>{result.user.name}</h2>
+                      <h2>{result.wpm}</h2>
+                    </div>
+                  ) : (
+                    <div
+                      key={index}
+                      className={`mt-2 flex w-full justify-between rounded-md border-2 border-white p-2 font-medium ${
+                        localResultIds.includes(result.id)
+                          ? "bg-white text-black"
+                          : "bg-black text-white"
+                      }`}
+                    >
+                      <h2 className="italic">guest</h2>
+                      <h2>{result.wpm}</h2>
+                    </div>
+                  )
+
+                // <div
+                //   key={index}
+                //   className={`mt-2 flex w-full justify-between rounded-md border-2 border-white p-2 font-medium ${
+                //     result.user?.id === sessionData?.user.id
+                //       ? "bg-white text-black"
+                //       : "bg-black text-white"
+                //   }`}
+                // >
+                //   <h2>{result.user ? result.user.name : "guest"}</h2>
+                //   <h2>{result.wpm}</h2>
+                // </div>
+              )}
             </div>
           </div>
         ) : (

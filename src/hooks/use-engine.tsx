@@ -26,7 +26,9 @@ export default function useEngine() {
     },
     onSuccess: (data) => {
       if (!data.userId) {
-        notifyError("Login to see your results on the leaderboard");
+        toast.success(
+          "Successfully saved result, login to save across devices"
+        );
         const currResults = localStorage.getItem("results");
         if (currResults) {
           const parsedResults = JSON.parse(currResults);

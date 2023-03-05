@@ -6,7 +6,7 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const resultsRouter = createTRPCRouter({
   getLeaderboard: publicProcedure.query(
-    async (): Promise<{ user: User | null; wpm: number }[]> => {
+    async (): Promise<{ user: User | null; wpm: number; id: string }[]> => {
       const test = await prisma.test.findFirst({
         orderBy: {
           createdAt: "desc",
@@ -22,13 +22,11 @@ export const resultsRouter = createTRPCRouter({
       const leaderboard = await prisma.result.findMany({
         where: {
           testId: test.id,
-          NOT: {
-            user: null,
-          },
         },
         select: {
           user: true,
           wpm: true,
+          id: true,
         },
         orderBy: {
           wpm: "desc",
