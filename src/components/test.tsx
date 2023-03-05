@@ -2,9 +2,11 @@ import cn from "classnames";
 import { useEffect } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import useEngine from "~/hooks/use-engine";
+import useWindowSize from "~/hooks/use-window-size";
 import Spinner from "./spinner";
 
 export default function Test() {
+  const dimensions = useWindowSize();
   const { timeLeft, typed, gameState, test, wpm, resetGame } = useEngine();
 
   useEffect(() => {
@@ -18,6 +20,15 @@ export default function Test() {
     }
   }, [gameState]);
 
+  if (dimensions.width !== undefined) {
+    if (dimensions.width < 1024) {
+      return (
+        <div className="flex items-center justify-center">
+          <h1 className="text-white">Please use a computer</h1>
+        </div>
+      );
+    }
+  }
   if (test.isError)
     return (
       <div className="flex items-center justify-center">
@@ -26,7 +37,7 @@ export default function Test() {
     );
   if (test.isLoading || !test.data) return <Spinner />;
   return (
-    <section className="flex w-3/5 flex-col gap-4">
+    <section className="flex w-4/5 flex-col gap-4 md:w-3/5">
       {gameState === "finished" ? (
         <div className="flex w-full items-center justify-center">
           <h1 className="text-7xl font-semibold text-white">

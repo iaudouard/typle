@@ -25,7 +25,7 @@ export default function Leaderboard() {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center gap-4">
         {leaderboard.data && leaderboard.data.length > 0 ? (
-          <div className="w-1/4">
+          <div className="w-3/4 lg:w-1/2">
             <h1 className="mb-4 text-xl font-semibold text-white">
               Daily Leaderboard:
             </h1>
