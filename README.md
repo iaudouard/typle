@@ -2,7 +2,7 @@
 
 Daily typeracer test - you get to be on leaderboard if you have an account
 
-![Screenshot 2023-03-05 at 4.00.57 AM](inkdrop://file:KaO2lhc69)
+![Screenshot 2023-03-05 at 4.00.57 AM](public/preview.png)
 
 ## Built with
 
