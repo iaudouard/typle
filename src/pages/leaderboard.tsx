@@ -7,16 +7,17 @@ import { api } from "~/utils/api";
 export default function Leaderboard() {
   const leaderboard = api.results.getLeaderboard.useQuery();
 
-  const [localResultIds, setLocalResultIds] = useState<string[]>([]);
+  const [localResultIds, setLocalResultIds] = useState<string[]>();
   const { data: sessionData } = useSession();
 
   useEffect(() => {
     const locals = localStorage.getItem("results");
     if (locals) {
       const parsedResults = JSON.parse(locals);
-      setLocalResultIds(parsedResults.map((result: any) => result.id));
+      const ids = parsedResults.map((result: any) => result.id);
+      setLocalResultIds(ids);
     }
-  }, [localResultIds]);
+  }, [sessionData, setLocalResultIds]);
 
   if (leaderboard.isLoading && !leaderboard.data) {
     return <Spinner />;
@@ -59,8 +60,10 @@ export default function Leaderboard() {
                     <div
                       key={index}
                       className={`mt-2 flex w-full justify-between rounded-md border-2 border-white p-2 font-medium ${
-                        localResultIds.includes(result.id)
-                          ? "bg-white text-black"
+                        localResultIds
+                          ? localResultIds.includes(result.id)
+                            ? "bg-white text-black"
+                            : "bg-black text-white"
                           : "bg-black text-white"
                       }`}
                     >
