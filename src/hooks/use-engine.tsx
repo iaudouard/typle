@@ -11,6 +11,7 @@ type GameState = "idle" | "playing" | "finished";
 const TEST_TIME = 15;
 
 export default function useEngine() {
+  const { data: sessionData } = useSession();
   const test = api.test.get.useQuery();
   const [gameState, setGameState] = useState<GameState>("idle");
   const { timeLeft, start, reset } = useCountdownTimer(TEST_TIME);
@@ -18,13 +19,27 @@ export default function useEngine() {
     gameState !== "finished"
   );
   const [wpm, setWpm] = useState<number>();
-  const result = api.test.postResult.useMutation({
+  const result = api.results.post.useMutation({
     onError: (error) => {
       notifyError("Failed to upload result: " + error.message);
       return;
     },
+    onSuccess: (data) => {
+      if (!data.userId) {
+        notifyError("Login to see your results on the leaderboard");
+        const currResults = localStorage.getItem("results");
+        if (currResults) {
+          const parsedResults = JSON.parse(currResults);
+          localStorage.setItem(
+            "results",
+            JSON.stringify([...parsedResults, data])
+          );
+        } else {
+          localStorage.setItem("results", JSON.stringify([data]));
+        }
+      }
+    },
   });
-  const { data: sessionData } = useSession();
 
   const notifyError = (err: string) => toast.error(err);
 
@@ -40,14 +55,10 @@ export default function useEngine() {
       if (test.data) {
         const tempWpm = calculateWpm(TEST_TIME, typed, test.data.body);
         setWpm(tempWpm);
-        if (sessionData?.user) {
-          result.mutateAsync({
-            testId: test.data.id,
-            wpm: tempWpm,
-          });
-        } else {
-          notifyError("You must be logged in to save your results");
-        }
+        result.mutateAsync({
+          testId: test.data.id,
+          wpm: tempWpm,
+        });
       }
       setGameState("finished");
     }

@@ -1,4 +1,4 @@
-import { leaderboardRouter } from "~/server/api/routers/leaderboard";
+import { resultsRouter } from "~/server/api/routers/results";
 import { testRouter } from "~/server/api/routers/test";
 import { createTRPCRouter } from "~/server/api/trpc";
 
@@ -9,7 +9,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   test: testRouter,
-  leaderboard: leaderboardRouter,
+  results: resultsRouter,
 });
 
 // export type definition of API

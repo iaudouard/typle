@@ -4,7 +4,7 @@ import Spinner from "~/components/spinner";
 import { api } from "~/utils/api";
 
 export default function Leaderboard() {
-  const leaderboard = api.leaderboard.get.useQuery();
+  const leaderboard = api.results.getLeaderboard.useQuery();
   const { data: sessionData } = useSession();
 
   if (leaderboard.isLoading && !leaderboard.data) {
