@@ -59,10 +59,10 @@ export const resultsRouter = createTRPCRouter({
               userId: ctx.session.user.id,
             },
           });
-          if (currResults.length >= 6) {
+          if (currResults.length >= 5) {
             throw new TRPCError({
               code: "UNAUTHORIZED",
-              message: "You have already taken this test 6 times",
+              message: "You have already taken this test 5 times",
             });
           }
 
@@ -107,10 +107,10 @@ export const resultsRouter = createTRPCRouter({
               userId: ctx.session.user.id,
             },
           });
-          if (currResults.length >= 6) {
+          if (currResults.length >= 5) {
             throw new TRPCError({
               code: "UNAUTHORIZED",
-              message: "You have already taken this test 6 times",
+              message: "You have already taken this test 5 times",
             });
           }
           const updatedResult = await tx.result.updateMany({
