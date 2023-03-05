@@ -34,12 +34,12 @@ export default function Leaderboard() {
                 <div
                   key={index}
                   className={`mt-2 flex w-full justify-between rounded-md border-2 border-white p-2 font-medium ${
-                    result.user.id === sessionData?.user.id
+                    result.user?.id === sessionData?.user.id
                       ? "bg-white text-black"
                       : "bg-black text-white"
                   }`}
                 >
-                  <h2>{result.user.name}</h2>
+                  <h2>{result.user?.name}</h2>
                   <h2>{result.wpm}</h2>
                 </div>
               ))}
