@@ -53,7 +53,18 @@ export default function Leaderboard() {
                           : "bg-black text-white"
                       }`}
                     >
-                      <h2>{result.user.name}</h2>
+                      <div className="flex gap-4">
+                        <img
+                          src={
+                            result.user.image
+                              ? result.user.image
+                              : "https://t3.ftcdn.net/jpg/00/64/67/80/360_F_64678017_zUpiZFjj04cnLri7oADnyMH0XBYyQghG.jpg"
+                          }
+                          alt=""
+                          className="w-6 rounded-full"
+                        />
+                        <h2>{result.user.name}</h2>
+                      </div>
                       <h2>{result.wpm}</h2>
                     </div>
                   ) : (
@@ -67,7 +78,17 @@ export default function Leaderboard() {
                           : "bg-black text-white"
                       }`}
                     >
-                      <h2 className="italic">guest</h2>
+                      <div className="flex gap-4">
+                        <img
+                          src={
+                            "https://t3.ftcdn.net/jpg/00/64/67/80/360_F_64678017_zUpiZFjj04cnLri7oADnyMH0XBYyQghG.jpg"
+                          }
+                          alt=""
+                          className="w-6 rounded-full"
+                        />
+
+                        <h2 className="italic">guest</h2>
+                      </div>
                       <h2>{result.wpm}</h2>
                     </div>
                   )
