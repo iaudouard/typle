@@ -1,12 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const isKeyboardCodeAllowed = (code: string) => {
-  return (
-    code.startsWith("Key") ||
-    code.startsWith("Digit") ||
-    code === "Space" ||
-    code === "Backspace"
-  );
+const isKeyAllowed = (key: string) => {
+  const allowedKeys =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYZ0123456789 ";
+  return allowedKeys.includes(key) || key === "Backspace";
 };
 
 export const useTyping = (enabled: boolean) => {
@@ -15,9 +12,8 @@ export const useTyping = (enabled: boolean) => {
   const totalTyped = useRef(0);
 
   const keydownHandler = useCallback(
-    ({ key, code }: KeyboardEvent) => {
-      console.log("keyboard event");
-      if (!enabled || !isKeyboardCodeAllowed(code)) {
+    ({ key }: KeyboardEvent) => {
+      if (!enabled || !isKeyAllowed(key)) {
         return;
       }
 

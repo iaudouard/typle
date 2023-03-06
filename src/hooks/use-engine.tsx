@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
@@ -11,7 +10,6 @@ type GameState = "idle" | "playing" | "finished";
 const TEST_TIME = 15;
 
 export default function useEngine() {
-  const { data: sessionData } = useSession();
   const test = api.test.get.useQuery();
   const [gameState, setGameState] = useState<GameState>("idle");
   const { timeLeft, start, reset } = useCountdownTimer(TEST_TIME);
