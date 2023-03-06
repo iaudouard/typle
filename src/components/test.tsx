@@ -21,7 +21,7 @@ export default function Test() {
   }, [gameState]);
 
   if (dimensions.width !== undefined) {
-    if (dimensions.width < 1024) {
+    if (dimensions.width < 640) {
       return (
         <div className="flex items-center justify-center">
           <h1 className="text-white">Please use a computer</h1>
