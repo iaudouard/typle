@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import useEngine from "~/hooks/use-engine";
 import useWindowSize from "~/hooks/use-window-size";
+import { GameState } from "~/types/game-state";
 import Spinner from "./spinner";
 
 export default function Test() {
@@ -10,15 +11,17 @@ export default function Test() {
   const { timeLeft, typed, gameState, test, wpm, resetGame } = useEngine();
 
   useEffect(() => {
-    if (gameState === "finished") {
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Tab") {
-          e.preventDefault();
-          resetGame();
-        }
-      });
-    }
-  }, [gameState]);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Tab") {
+        e.preventDefault();
+        resetGame();
+      }
+    });
+
+    return () => {
+      document.removeEventListener("keydown", () => {});
+    };
+  }, [resetGame]);
 
   if (dimensions.width !== undefined) {
     if (dimensions.width < 640) {
@@ -38,7 +41,7 @@ export default function Test() {
   if (test.isLoading || !test.data) return <Spinner />;
   return (
     <section className="flex w-4/5 flex-col gap-4 md:w-3/5">
-      {gameState === "finished" ? (
+      {gameState === GameState.FINISHED ? (
         <div className="flex w-full items-center justify-center">
           <h1 className="text-7xl font-semibold text-white">
             {wpm}
