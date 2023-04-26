@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { GameState } from "~/types/game-state";
 import { api } from "~/utils/api";
 import { calculateWpm } from "~/utils/test-stats";
 import { useCountdownTimer } from "./use-countdown-timer";
 import { useTyping } from "./use-typing";
 
-type GameState = "idle" | "playing" | "finished";
-
 const TEST_TIME = 15;
 
 export default function useEngine() {
   const test = api.test.get.useQuery();
-  const [gameState, setGameState] = useState<GameState>("idle");
+  const [gameState, setGameState] = useState<GameState>(GameState.IDLE);
   const { timeLeft, start, reset } = useCountdownTimer(TEST_TIME);
   const { typed, cursor, clearTyped, resetTotalTyped } = useTyping(
-    gameState !== "finished"
+    gameState !== GameState.FINISHED
   );
   const [wpm, setWpm] = useState<number>();
   const result = api.results.post.useMutation({
@@ -44,14 +43,14 @@ export default function useEngine() {
   const notifyError = (err: string) => toast.error(err);
 
   useEffect(() => {
-    if (gameState === "idle" && cursor > 0) {
+    if (gameState === GameState.IDLE && cursor > 0) {
       start();
-      setGameState("playing");
+      setGameState(GameState.PLAYING);
     }
   }, [gameState, cursor, start]);
 
   useEffect(() => {
-    if (gameState === "playing" && !timeLeft) {
+    if (gameState === GameState.PLAYING && !timeLeft) {
       if (test.data) {
         const tempWpm = calculateWpm(TEST_TIME, typed, test.data.body);
         setWpm(tempWpm);
@@ -60,7 +59,7 @@ export default function useEngine() {
           wpm: tempWpm,
         });
       }
-      setGameState("finished");
+      setGameState(GameState.FINISHED);
     }
   }, [gameState, timeLeft]);
 
@@ -74,7 +73,7 @@ export default function useEngine() {
     reset();
     clearTyped();
     resetTotalTyped();
-    setGameState("idle");
+    setGameState(GameState.IDLE);
   }
 
   return { gameState, timeLeft, typed, test, wpm, resetGame };
