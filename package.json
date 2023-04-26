@@ -31,6 +31,7 @@
     "react-lottie": "^1.2.3",
     "react-timer-hook": "^3.0.5",
     "superjson": "1.9.1",
+    "universal-cookie": "^4.0.4",
     "zod": "^3.20.2"
   },
   "devDependencies": {
