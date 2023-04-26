@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import { useEffect } from "react";
@@ -40,7 +41,12 @@ export default function Account() {
         <meta name="description" content="typeracer wordle" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center">
+      <motion.main
+        className="flex min-h-screen flex-col items-center justify-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
         <div className="flex flex-col gap-4">
           {sessionData && (
             <span className="text-xl font-semibold text-white">
@@ -54,7 +60,7 @@ export default function Account() {
             {sessionData ? "Sign out" : "Sign in"}
           </button>
         </div>
-      </main>
+      </motion.main>
     </>
   );
 }

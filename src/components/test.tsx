@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import useEngine from "~/hooks/use-engine";
@@ -41,8 +42,13 @@ export default function Test() {
   if (test.isLoading || !test.data) return <Spinner />;
   return (
     <section className="flex w-4/5 flex-col gap-4 md:w-3/5">
-      {gameState === GameState.FINISHED ? (
-        <div className="flex w-full items-center justify-center">
+      {gameState === GameState.FINISHED && (
+        <motion.div
+          className="flex w-full items-center justify-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
           <h1 className="text-7xl font-semibold text-white">
             {wpm}
             <span className="text-xl">wpm</span>
@@ -53,14 +59,27 @@ export default function Test() {
           >
             <FaChevronRight size={24} color="white" />
           </div>
-        </div>
-      ) : (
-        <>
+        </motion.div>
+      )}
+      {gameState === GameState.IDLE && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
           <h1 className="text-2xl font-semibold text-white">{timeLeft}</h1>
           <div className="relative w-full text-2xl font-semibold">
             <Text testBody={test.data.body} typed={typed} />
           </div>
-        </>
+        </motion.div>
+      )}
+      {gameState === GameState.PLAYING && (
+        <div>
+          <h1 className="text-2xl font-semibold text-white">{timeLeft}</h1>
+          <div className="relative w-full text-2xl font-semibold">
+            <Text testBody={test.data.body} typed={typed} />
+          </div>
+        </div>
       )}
     </section>
   );
