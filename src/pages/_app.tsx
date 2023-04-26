@@ -7,12 +7,14 @@ import { Analytics } from "@vercel/analytics/react";
 import { api } from "~/utils/api";
 
 import { Nav } from "~/components/nav";
+import { useNotifications } from "~/hooks/use-notifications";
 import "~/styles/globals.css";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
+  const notifications = useNotifications();
   return (
     <SessionProvider session={session}>
       <Nav />
