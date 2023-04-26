@@ -21,7 +21,7 @@ export default function Test() {
     return () => {
       document.removeEventListener("keydown", () => {});
     };
-  }, []);
+  }, [resetGame]);
 
   if (dimensions.width !== undefined) {
     if (dimensions.width < 640) {
